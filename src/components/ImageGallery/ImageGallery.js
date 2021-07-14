@@ -27,18 +27,16 @@ export default class ImageGallery extends Component {
     const nextName = this.props.imageName;
     if (prevName !== nextName) {
       this.setState({ status: Status.PENDING });
-      setTimeout(() => {
-        fetchApi
-          .fetchImage(nextName, this.state.page)
-          .then((hits) =>
-            this.setState((prevState) => ({
-              images: hits,
-              status: Status.RESOLVED,
-              page: prevState.page + 1,
-            }))
-          )
-          .catch((error) => this.setState({ error, status: Status.REJECTED }));
-      }, 2000);
+      fetchApi
+        .fetchImage(nextName, this.state.page)
+        .then((hits) =>
+          this.setState((prevState) => ({
+            images: hits,
+            status: Status.RESOLVED,
+            page: prevState.page + 1,
+          }))
+        )
+        .catch((error) => this.setState({ error, status: Status.REJECTED }));
     }
     if (prevState.images !== this.state.images) {
       window.scrollTo({
@@ -48,9 +46,10 @@ export default class ImageGallery extends Component {
     }
   }
 
-  fetch = () => {
+  onLoadMore = () => {
     const { page } = this.state;
     const { imageName } = this.props;
+    this.setState({ status: Status.PENDING });
     fetchApi
       .fetchImage(imageName, page)
       .then((hits) =>
@@ -84,7 +83,7 @@ export default class ImageGallery extends Component {
               />
             ))}
           </ul>
-          {images.length !== 0 && <Button onClick={this.fetch}></Button>}
+          {images.length !== 0 && <Button onClick={this.onLoadMore} />}
         </>
       );
     }
