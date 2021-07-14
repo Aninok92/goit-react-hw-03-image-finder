@@ -1,4 +1,5 @@
 import { Component } from "react";
+import toast from "react-hot-toast";
 import s from "./Searchbar.module.scss";
 
 class Searchbar extends Component {
@@ -12,9 +13,15 @@ class Searchbar extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
 
+    if (this.state.value.trim() === "") {
+      toast.error("enter something");
+      return;
+    }
+
     // Проп который передается форме для вызова при сабмите
     this.props.onSubmit(this.state.value);
     console.log(this.state.value);
+    this.setState({ value: "" });
   };
 
   render() {
