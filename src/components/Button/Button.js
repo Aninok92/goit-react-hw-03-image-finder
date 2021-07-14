@@ -1,4 +1,5 @@
 import s from "./Button.module.scss";
+import PropTypes from "prop-types";
 
 const Button = ({ onClick }) => {
   return (
@@ -6,6 +7,14 @@ const Button = ({ onClick }) => {
       Load more
     </button>
   );
+};
+
+Button.defaultProps = {
+  onClick: () => null,
+};
+
+Button.propType = {
+  onClick: PropTypes.func,
 };
 
 export default Button;

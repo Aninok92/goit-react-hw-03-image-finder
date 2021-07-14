@@ -22,7 +22,7 @@ class App extends Component {
   render() {
     return (
       <Container>
-        <Searchbar onSubmit={this.handleFormSubmit}></Searchbar>
+        <Searchbar onSubmit={this.handleFormSubmit} />
         <ImageGallery
           imageName={this.state.imageName}
           onSelectImage={this.handleSelectImage}

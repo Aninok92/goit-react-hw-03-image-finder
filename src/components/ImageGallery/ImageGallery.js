@@ -1,5 +1,6 @@
 import { Component } from "react";
 import toast from "react-hot-toast";
+import PropTypes from "prop-types";
 import ImageGalleryItem from "../ImageGalleryItem/ImageGalleryItem";
 import LoaderContainer from "../Loader/Loader";
 import Button from "../Button/Button";
@@ -92,3 +93,19 @@ export default class ImageGallery extends Component {
     }
   }
 }
+
+ImageGallery.defaultProps = {
+  imageName: null,
+  onSelectImage: () => null,
+};
+
+ImageGallery.propTypes = {
+  images: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      largeImageURL: PropTypes.string.isRequired,
+    })
+  ),
+  imageName: PropTypes.string,
+  onSelectImage: PropTypes.func,
+};

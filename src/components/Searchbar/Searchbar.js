@@ -1,4 +1,5 @@
 import { Component } from "react";
+import PropTypes from "prop-types";
 import toast from "react-hot-toast";
 import s from "./Searchbar.module.scss";
 
@@ -34,8 +35,8 @@ class Searchbar extends Component {
           <input
             className={s.SearchFormInput}
             type="text"
-            autocomplete="off"
-            autofocus
+            autoComplete="off"
+            autoFocus
             placeholder="Search images and photos"
             value={this.state.value}
             onChange={this.handleChange}
@@ -45,5 +46,13 @@ class Searchbar extends Component {
     );
   }
 }
+
+Searchbar.defaultProps = {
+  onSubmit: () => null,
+};
+
+Searchbar.propType = {
+  onSubmit: PropTypes.func,
+};
 
 export default Searchbar;

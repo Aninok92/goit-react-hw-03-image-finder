@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import s from "./ImageGalleryItem.module.scss";
 
 const ImageGalleryItem = ({ webformatURL, onSelect }) => {
@@ -7,4 +8,14 @@ const ImageGalleryItem = ({ webformatURL, onSelect }) => {
     </li>
   );
 };
+
+ImageGalleryItem.defaultProps = {
+  onSelect: () => null,
+};
+
+ImageGalleryItem.propTypes = {
+  webformatURL: PropTypes.string.isRequired,
+  onSelect: PropTypes.func,
+};
+
 export default ImageGalleryItem;
