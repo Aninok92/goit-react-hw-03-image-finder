@@ -6,9 +6,9 @@ const LoaderContainer = () => {
     <div className={s.loaderContainer}>
       <Loader
         type="Oval"
-        color="#00BFFF"
-        height={100}
-        width={100}
+        color="#3f51b5"
+        height={50}
+        width={70}
         timeout={3000}
       />
     </div>
