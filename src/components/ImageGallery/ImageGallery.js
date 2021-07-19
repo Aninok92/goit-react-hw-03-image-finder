@@ -26,45 +26,41 @@ export default class ImageGallery extends Component {
     const prevName = prevProps.imageName;
     const nextName = this.props.imageName;
     if (prevName !== nextName) {
-      this.setState({ status: Status.PENDING });
-      fetchApi
-        .fetchImage(nextName, this.state.page)
-        .then((hits) =>
-          this.setState((prevState) => ({
-            images: hits,
-            status: Status.RESOLVED,
-            page: prevState.page + 1,
-          }))
-        )
-        .catch((error) => this.setState({ error, status: Status.REJECTED }));
-    }
-    if (prevState.images !== this.state.images) {
-      window.scrollTo({
-        top: document.documentElement.scrollHeight,
-        behavior: "smooth",
+      this.setState({
+        page: 1,
+        images: [],
+        error: null,
       });
+      this.fetchImage();
     }
   }
 
-  onLoadMore = () => {
-    const { page } = this.state;
-    const { imageName } = this.props;
+  fetchImage = () => {
     this.setState({ status: Status.PENDING });
+
     fetchApi
-      .fetchImage(imageName, page)
-      .then((hits) =>
+      .fetchImage(this.props.imageName, this.state.page)
+      .then((images) =>
         this.setState((prevState) => ({
-          images: [...prevState.images, ...hits],
+          images: [...prevState.images, ...images],
           status: Status.RESOLVED,
           page: prevState.page + 1,
         }))
       )
-      .catch((error) => this.setState({ error, status: Status.REJECTED }));
+      .catch((error) => this.setState({ error, status: Status.REJECTED }))
+      .finally(() => {
+        this.state.images.length > 12 &&
+          window.scrollTo({
+            top: document.documentElement.scrollHeight,
+            behavior: "smooth",
+          });
+      });
   };
 
   render() {
     const { images, status } = this.state;
     console.log(images);
+
     if (status === "idle") {
       return <> </>;
     }
@@ -83,7 +79,7 @@ export default class ImageGallery extends Component {
               />
             ))}
           </ul>
-          {images.length !== 0 && <Button onClick={this.onLoadMore} />}
+          {images.length !== 0 && <Button onClick={this.fetchImage} />}
         </>
       );
     }
